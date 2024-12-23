@@ -30,22 +30,26 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if (!empty($request->phone)) {
+            $request->phone = preg_replace("/[^0-9]/", "", $request->phone);
+        }
+
         $request->validate([
-            'name' => 'required|string|max:255',
+            'fio' => 'required|string|max:255',
+            'login' => 'required|string|max:255|unique:'.User::class,
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => 'required|string|max:10|unique:'.User::class,
+            'password' => ['required', 'confirmed', 'string', 'min:6', 'max:255'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $request['password'] = Hash::make($request['password']);
+
+        $user = User::create($request->all());
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('applications.index', absolute: false));
     }
 }
