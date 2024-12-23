@@ -33,6 +33,9 @@ return new class extends Migration {
             $table->unsignedTinyInteger('status')
                 ->default(StatusEnum::New);
 
+            $table->text('reason_for_cancel')
+                ->nullable();
+
             $table->timestamps();
         });
     }

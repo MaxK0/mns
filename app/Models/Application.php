@@ -21,6 +21,7 @@ class Application extends Model
         'service_inf',
         'payment_type',
         'status',
+        'reason_for_cancel'
     ];
 
     public function getPaymentLabelAttribute(): string

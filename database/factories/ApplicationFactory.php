@@ -14,12 +14,16 @@ class ApplicationFactory extends Factory
 
     public function definition()
     {
+        $status = $this->faker->numberBetween(0, 3);
+        $reasonForCancel = $status === 3 ? 'Причина такая-то' : null;
+
         return [
             'address' => $this->faker->address(),
             'phone' => $this->faker->numerify('##########'),
             'receipt_date' => Carbon::tomorrow(),
             'payment_type' => $this->faker->numberBetween(0, 1),
-            'status' => $this->faker->numberBetween(0, 2),
+            'status' => $status,
+            'reason_for_cancel' => $reasonForCancel,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
