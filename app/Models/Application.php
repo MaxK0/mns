@@ -24,6 +24,10 @@ class Application extends Model
         'reason_for_cancel'
     ];
 
+    protected $appends = [
+        'payment_label', 'status_label', 'formatted_phone'
+    ];
+
     public function getPaymentLabelAttribute(): string
     {
         return $this->payment_type->label();
@@ -32,6 +36,18 @@ class Application extends Model
     public function getStatusLabelAttribute(): string
     {
         return $this->status->label();
+    }
+
+    public function getFormattedPhoneAttribute(): string
+    {
+        $phone = $this->phone;
+
+        $phone = preg_replace("/[^0-9]/", "", $phone);
+
+        $formattedPhone = "+7 "."(".substr($phone, 0, 3).")-".substr($phone, 3,
+                3)."-".substr($phone, 6, 2)."-".substr($phone, 8, 2);
+
+        return $formattedPhone;
     }
 
     public function user(): BelongsTo
