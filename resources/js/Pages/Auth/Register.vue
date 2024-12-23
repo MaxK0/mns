@@ -4,10 +4,15 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
+
+import InputMask from "primevue/inputmask";
+import Password from "primevue/password";
 
 const form = useForm({
-    name: '',
+    fio: '',
+    login: '',
+    phone: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -22,92 +27,129 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
+        <Head title="Регистрация"/>
+        <h1>Регистрация</h1>
+        <form @submit.prevent="submit" class="form">
+            <div class="form__block">
+                <InputLabel for="fio" value="ФИО"/>
 
                 <TextInput
-                    id="name"
+                    id="fio"
                     type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
+                    v-model="form.fio"
                     required
                     autofocus
                     autocomplete="name"
+                    :error="form.errors.fio"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError :message="form.errors.fio"/>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+            <div class="form__block">
+                <InputLabel for="login" value="Логин"/>
+
+                <TextInput
+                    id="login"
+                    type="text"
+                    v-model="form.login"
+                    required
+                    autocomplete="username"
+                    :error="form.errors.login"
+                />
+
+                <InputError :message="form.errors.login"/>
+            </div>
+            <div class="form__block">
+                <InputLabel for="login" value="Телефон"/>
+
+                <InputMask
+                    id="phone"
+                    class="input"
+                    v-model="form.phone"
+                    required
+                    autocomplete="phone"
+                    mask="+7 (999)-999-99-99"
+                    placeholder="+7 (999)-999-99-99"
+                    :class="{input__error: form.errors.phone}"
+                />
+
+                <InputError :message="form.errors.phone"/>
+            </div>
+
+            <div class="form__block">
+                <InputLabel for="email" value="Email"/>
 
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
-                    autocomplete="username"
+                    autocomplete="email"
+                    :error="form.errors.email"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError :message="form.errors.email"/>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+            <div class="form__block">
+                <InputLabel for="password" value="Пароль"/>
 
-                <TextInput
+                <Password
                     id="password"
-                    type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password"
+                    toggleMask
+                    :feedback="false"
                     required
-                    autocomplete="new-password"
+                    autocomplete="current-password"
+                    :class="{input__error: form.errors.password}"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError :message="form.errors.password"/>
             </div>
 
-            <div class="mt-4">
+            <div class="form__block">
                 <InputLabel
                     for="password_confirmation"
-                    value="Confirm Password"
+                    value="Подтверждение пароля"
                 />
 
-                <TextInput
+                <Password
                     id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password_confirmation"
+                    toggleMask
+                    :feedback="false"
                     required
                     autocomplete="new-password"
+                    :class="{input__error: form.errors.password_confirmation}"
                 />
 
                 <InputError
-                    class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="form__footer">
                 <Link
                     :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
+                    class="second-link"
+                >Вход
                 </Link>
 
                 <PrimaryButton
-                    class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Register
+                    Зарегистрироваться
                 </PrimaryButton>
             </div>
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+</style>

@@ -5,7 +5,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
+import Password from "primevue/password";
 
 defineProps({
     canResetPassword: {
@@ -17,7 +18,7 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    login: '',
     password: '',
     remember: false,
 });
@@ -31,70 +32,71 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
-
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
+        <Head title="Вход"/>
+        <h1>Вход</h1>
+        <form @submit.prevent="submit" class="form">
+            <div class="form__block">
+                <InputLabel for="login" value="Логин"/>
 
                 <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
+                    id="login"
+                    type="text"
+                    v-model="form.login"
                     required
                     autofocus
                     autocomplete="username"
+                    :error="form.errors.login"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError :message="form.errors.login"/>
             </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+            <div class="form__block">
+                <InputLabel for="password" value="Пароль"/>
 
-                <TextInput
+                <Password
                     id="password"
-                    type="password"
-                    class="mt-1 block w-full"
                     v-model="form.password"
+                    toggleMask
+                    :feedback="false"
                     required
                     autocomplete="current-password"
+                    :error="form.errors.password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError :message="form.errors.password"/>
             </div>
 
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
+            <div class="form__block">
+                <label class="checkbox">
+                    <Checkbox name="remember" v-model:checked="form.remember"/>
+                    <span
+                    >Запомнить себя</span
                     >
                 </label>
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="form__footer">
                 <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
+                    :href="route('register')"
+                    class="second-link"
+                >Регистрация
                 </Link>
 
                 <PrimaryButton
-                    class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                    Войти
                 </PrimaryButton>
             </div>
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+</style>

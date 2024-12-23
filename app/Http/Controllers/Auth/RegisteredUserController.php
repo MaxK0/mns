@@ -30,8 +30,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if (!empty($request->phone)) {
-            $request->phone = preg_replace("/[^0-9]/", "", $request->phone);
+        $phone = $request->input('phone');
+
+        if (!empty($phone)) {
+            $phone = preg_replace("/[^0-9]/", "", $phone);
+            $phone = substr($phone, 1);
+
+            $request->merge(['phone' => $phone]);
         }
 
         $request->validate([
