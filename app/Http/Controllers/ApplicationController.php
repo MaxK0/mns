@@ -16,7 +16,10 @@ class ApplicationController extends Controller
     {
         $this->authorize('viewAny', Application::class);
 
-        $applications = Application::with('service')
+        $user = auth()->user();
+
+        $applications = $user->applications()
+            ->with('service')
             ->paginate($request->get('perPage', 25))
             ->withQueryString();
 
