@@ -35,6 +35,26 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    protected $appends = [
+        'formatted_phone'
+    ];
+
+    public function getFormattedPhoneAttribute(): string
+    {
+        $phone = $this->phone;
+
+        $phone = preg_replace("/[^0-9]/", "", $phone);
+
+        $formattedPhone = "+7 "."(".substr($phone, 0, 3).")-".substr($phone, 3,
+                3)."-".substr($phone, 6, 2)."-".substr($phone, 8, 2);
+
+        return $formattedPhone;
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -47,10 +67,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function applications(): HasMany
-    {
-        return $this->hasMany(Application::class);
     }
 }
