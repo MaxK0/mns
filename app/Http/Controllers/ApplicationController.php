@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentEnum;
 use App\Http\Requests\Application\StoreRequest;
 use App\Models\Application;
+use App\Models\Service;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +22,8 @@ class ApplicationController extends Controller
 
         $applications = $user->applications()
             ->with('service')
-            ->paginate($request->get('perPage', 25))
+            ->orderByDesc('id')
+            ->paginate($request->get('perPage', 20))
             ->withQueryString();
 
         return Inertia::render('Application/Index', [
@@ -34,14 +37,27 @@ class ApplicationController extends Controller
 
         $data = $request->validated();
 
-        return Application::create($data);
+        if ($data['is_another_service']) $data['service_id'] = null;
+        else $data['service_inf'] = null;
+
+        $data['user_id'] = auth()->user()->id;
+
+        Application::create($data);
+
+        return redirect()->route('applications.index');
     }
 
     public function create()
     {
         $this->authorize('create', Application::class);
 
-        return Inertia::render('Application/Create');
+        $services = Service::all();
+        $paymentTypes = PaymentEnum::toArray();
+
+        return Inertia::render('Application/Create', [
+            'services' => $services,
+            'paymentTypes' => $paymentTypes
+        ]);
     }
 
     public function show(Application $application)

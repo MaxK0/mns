@@ -251,6 +251,7 @@ section {
 
 .form__blocks {
     display: flex;
+    align-items: center;
     flex-grow: 1;
     gap: 1.7rem;
     width: 100%;
@@ -308,10 +309,6 @@ section {
     padding-right: 3rem;
 }
 
-.input__error {
-    border-color: var(--color-wrong);
-}
-
 .textarea {
     display: flex;
     align-items: center;
@@ -334,6 +331,53 @@ section {
     border: 2px solid var(--color-second);
     padding: 0.7rem 1rem;
     gap: 0.7rem;
+}
+
+.input__error {
+    border-color: var(--color-wrong);
+}
+
+[data-pc-name="pcfiltercontainer"] {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+[data-pc-name="pcfiltercontainer"] > input {
+    width: 100%;
+    background: none;
+    border: 2px solid var(--color-main);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-normal);
+    margin-top: 0.7rem;
+}
+
+[data-pc-name="pcfiltercontainer"] [data-pc-name="pcfiltericoncontainer"] {
+    position: absolute;
+    top: 44%;
+    right: 0.7rem;
+}
+
+[data-pc-section="overlay"] {
+    background-color: var(--color-second);
+    color: var(--color-main);
+    border: 2px solid var(--color-main);
+    border-radius: var(--border-radius);
+    padding: 0.7rem;
+}
+
+[data-pc-section="overlay"] [data-pc-section="option"] {
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 0.3rem;
+    border-radius: var(--border-radius);
+}
+
+[data-pc-section="overlay"] [data-pc-section="option"]:hover {
+    background-color: var(--color-main);
+    color: var(--color-second);
 }
 
 .checkbox__block {
@@ -496,7 +540,7 @@ button.delete:active {
         gap: 1rem;
     }
 
-    .section {
+    section {
         padding: 3rem 0;
     }
 }

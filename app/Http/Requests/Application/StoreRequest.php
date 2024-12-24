@@ -3,10 +3,8 @@
 namespace App\Http\Requests\Application;
 
 use App\Enums\PaymentEnum;
-use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 class StoreRequest extends FormRequest
 {
@@ -27,25 +25,34 @@ class StoreRequest extends FormRequest
     {
         return [
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'receipt_date' => ['required', 'date'],
-            'service_id' => ['nullable', 'integer', 'exists:App\Models\Service,id'],
-            'service_info' => ['nullable', 'string'],
+            'phone' => ['required', 'string', 'max:10'],
+            'receipt_date' => ['required', 'date', 'after:now'],
+            'is_another_service' => ['required', 'boolean'],
+            'service_id' => [
+                $this->is_another_service ? 'nullable' : 'required',
+                'integer', 'exists:App\Models\Service,id'
+            ],
+            'service_inf' => [
+                $this->is_another_service ? 'required' : 'nullable',
+                'string'
+            ],
             'payment_type' => ['required', Rule::enum(PaymentEnum::class)],
         ];
     }
 
-    public function after(): array
+    public function prepareForValidation()
     {
-        return [
-            function (Validator $validator) {
-                if (empty($this->service_id) && empty($this->service_info)) {
-                    $validator->errors()->add(
-                        'service_id',
-                        "Поле 'service' обязательно для заполнения"
-                    );
-                }
-            }
-        ];
+        $phone = $this->phone;
+
+        if (!empty($phone)) {
+            $phone = preg_replace("/[^0-9]/", "", $phone);
+            $phone = substr($phone, 1);
+        }
+
+        $this->merge([
+            'service_id' => $this->service['id'] ?? null,
+            'payment_type' => $this->payment_type['id'] ?? null,
+            'phone' => $phone,
+        ]);
     }
 }
