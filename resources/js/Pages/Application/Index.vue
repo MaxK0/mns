@@ -34,7 +34,7 @@ const props = defineProps({
                     <thead class="thead thead__index">
                     <tr>
                         <th>Услуга</th>
-                        <th>Дата получения</th>
+                        <th>Дата оказания услуги</th>
                         <th>Телефон</th>
                         <th>Статус</th>
                     </tr>
@@ -48,7 +48,7 @@ const props = defineProps({
                             >{{ application.service ? application.service.title : application.service_inf }}
                             </Link>
                         </td>
-                        <td data-label="Дата получения">
+                        <td data-label="Оказание услуги">
                             {{ formateDate(application.receipt_date) }}
                         </td>
                         <td data-label="Телефон">
