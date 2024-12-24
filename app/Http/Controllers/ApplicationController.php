@@ -64,6 +64,10 @@ class ApplicationController extends Controller
     {
         $this->authorize('view', $application);
 
-        return $application;
+        $application->load('service');
+
+        return Inertia::render('Application/Show', [
+            'application' => $application
+        ]);
     }
 }
