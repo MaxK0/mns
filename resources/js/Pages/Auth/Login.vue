@@ -45,6 +45,7 @@ const submit = () => {
                     required
                     autofocus
                     autocomplete="username"
+                    placeholder="login"
                     :error="form.errors.login"
                 />
 
@@ -61,6 +62,7 @@ const submit = () => {
                     :feedback="false"
                     required
                     autocomplete="current-password"
+                    placeholder="password"
                     :error="form.errors.password"
                 />
 

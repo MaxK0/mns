@@ -40,6 +40,7 @@ const submit = () => {
                     required
                     autofocus
                     autocomplete="name"
+                    placeholder="Иванов Иван Иванович"
                     :error="form.errors.fio"
                 />
 
@@ -55,13 +56,14 @@ const submit = () => {
                     v-model="form.login"
                     required
                     autocomplete="username"
+                    placeholder="login"
                     :error="form.errors.login"
                 />
 
                 <InputError :message="form.errors.login"/>
             </div>
             <div class="form__block">
-                <InputLabel for="login" value="Телефон"/>
+                <InputLabel for="phone" value="Телефон"/>
 
                 <InputMask
                     id="phone"
@@ -86,6 +88,7 @@ const submit = () => {
                     v-model="form.email"
                     required
                     autocomplete="email"
+                    placeholder="ivan@gmail.com"
                     :error="form.errors.email"
                 />
 
@@ -102,6 +105,7 @@ const submit = () => {
                     :feedback="false"
                     required
                     autocomplete="current-password"
+                    placeholder="password"
                     :class="{input__error: form.errors.password}"
                 />
 
@@ -121,6 +125,7 @@ const submit = () => {
                     :feedback="false"
                     required
                     autocomplete="new-password"
+                    placeholder="password"
                     :class="{input__error: form.errors.password_confirmation}"
                 />
 
