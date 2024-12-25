@@ -186,7 +186,7 @@ const submit = () => {
                         </div>
 
                         <div v-if="form.status.id == 3" class="form__block">
-                            <InputLabel for="reason_for_cancel" value="Причины отмены"/>
+                            <InputLabel for="reason_for_cancel" value="Причина отмены"/>
                             <textarea
                                 id="reason_for_cancel"
                                 class="textarea"
