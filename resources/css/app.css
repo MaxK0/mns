@@ -207,7 +207,7 @@ section {
 
 .tbody td {
     border: 2px solid var(--color-second);
-    padding: 0.3rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .tbody th {
@@ -233,9 +233,16 @@ section {
 
 .table__btns {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
+}
+
+.table__btns .main-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    width: 100%;
 }
 
 /*<======================== End of table ========================>*/
@@ -526,6 +533,11 @@ button.delete:active {
         margin-right: 1.5rem;
         float: left;
         font-weight: bold;
+    }
+
+    .table__btns {
+        flex-direction: row;
+        gap: 1.5rem;
     }
 
     /*<======================== End of table ========================>*/

@@ -13,7 +13,7 @@ import {Link} from '@inertiajs/vue3';
                     </Link>
                     <ul class="header__ul">
                         <li v-if="$page.props.auth.user.is_admin" class="header__li">
-                            <NavLink :href="route('applications.index')" :active="route().current('applications.*')">
+                            <NavLink :href="route('admin.applications.index')" :active="route().current('admin.*')">
                                 Админка
                             </NavLink>
                         </li>

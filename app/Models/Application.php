@@ -25,7 +25,7 @@ class Application extends Model
     ];
 
     protected $appends = [
-        'payment_label', 'status_label', 'formatted_phone'
+        'payment_label', 'status_label', 'formatted_phone', 'status_array', 'payment_array'
     ];
 
     public function getPaymentLabelAttribute(): string
@@ -48,6 +48,22 @@ class Application extends Model
                 3)."-".substr($phone, 6, 2)."-".substr($phone, 8, 2);
 
         return $formattedPhone;
+    }
+
+    public function getStatusArrayAttribute(): array
+    {
+        return [
+            'id' => $this->status,
+            'label' => $this->status_label
+        ];
+    }
+
+    public function getPaymentArrayAttribute(): array
+    {
+        return [
+            'id' => $this->payment_type,
+            'label' => $this->payment_label
+        ];
     }
 
     public function user(): BelongsTo

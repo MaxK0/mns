@@ -21,7 +21,7 @@ const props = defineProps({
         <section class="application__index">
             <div class="container">
                 <div class="section__title">
-                    <h2>Ваши заявки</h2>
+                    <h2>История заявок</h2>
                     <div class="section__title__btns">
                         <Link
                             :href="route('applications.create')"

@@ -8,7 +8,7 @@ const model = defineModel({
 
 const props = defineProps({
     error: {
-        required: true
+        required: false
     }
 })
 
