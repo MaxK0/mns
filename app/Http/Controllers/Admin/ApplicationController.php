@@ -31,7 +31,12 @@ class ApplicationController extends Controller
         $serviceId = $request->get('service_id');
 
         if ($serviceId) {
-            $applicationsQ->where('service_id', $serviceId);
+            if ($serviceId === 'diff') {
+                $applicationsQ->whereNull('service_id')
+                    ->whereNotNull('service_inf');
+            } else {
+                $applicationsQ->where('service_id', $serviceId);
+            }
         }
 
         $applications = $applicationsQ
@@ -39,14 +44,16 @@ class ApplicationController extends Controller
             ->withQueryString();
 
         $statuses = StatusEnum::toArray();
-        $statuses = array_merge([['id' => null, 'label' => 'Все статусы']], $statuses);
+        $filterStatuses = array_merge([['id' => null, 'label' => 'Все статусы']], $statuses);
 
         $services = Service::select('id', 'title')->get();
         $services->prepend(['id' => null, 'title' => 'Все услуги']);
+        $services->push(['id' => 'diff', 'title' => 'Другие']);
 
         return Inertia::render('Admin/Application/Index', [
             'applications' => $applications,
             'statuses' => $statuses,
+            'filterStatuses' => $filterStatuses,
             'services' => $services,
             'status' => $status,
             'service_id' => $serviceId,

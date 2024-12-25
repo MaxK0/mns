@@ -19,6 +19,10 @@ const props = defineProps({
         type: Object,
         required: true
     },
+    filterStatuses: {
+        type: Object,
+        required: true
+    },
     services: {
         type: Object,
         required: true
@@ -40,7 +44,7 @@ const reason_for_cancel = ref('');
 console.log(props.status);
 
 const statusFilter = ref(
-    props.statuses.find((status) => status.id == props.status)
+    props.filterStatuses.find((status) => status.id == props.status)
 );
 
 const serviceFilter = ref(
@@ -119,7 +123,7 @@ onUpdated(() => {
                     <div class="section__title__btns">
                         <Select
                             v-model="statusFilter"
-                            :options="statuses"
+                            :options="filterStatuses"
                             filter
                             optionLabel="label"
                             placeholder="Выберите статус"
